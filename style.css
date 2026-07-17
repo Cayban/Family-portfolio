@@ -1,0 +1,378 @@
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --wall: #3e4a3d;
+  --wall-deep: #333d32;
+  --wood: #8b6f47;
+  --wood-dark: #5f4a2c;
+  --paper: #faf7f0;
+  --paper-edge: #ece6d8;
+  --ink: #2b2620;
+  --ink-soft: #4c463d;
+  --gold: #d4a24c;
+  --gold-dark: #a97e33;
+  --shadow: rgba(20, 18, 12, 0.45);
+
+  --font-hand: "Caveat", cursive;
+  --font-body: "Work Sans", sans-serif;
+  --font-mono: "Space Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255, 255, 255, 0.04), transparent 60%),
+    repeating-linear-gradient(
+      180deg,
+      var(--wall) 0px,
+      var(--wall) 3px,
+      var(--wall-deep) 3px,
+      var(--wall-deep) 4px
+    );
+  background-color: var(--wall);
+  font-family: var(--font-body);
+  color: var(--paper);
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   INTRO
+   ============================================================ */
+.intro {
+  text-align: center;
+  padding: 4.5rem 1.5rem 2.5rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 0.75rem;
+}
+
+.title {
+  font-family: var(--font-hand);
+  font-size: clamp(3rem, 9vw, 5.2rem);
+  line-height: 0.95;
+  margin: 0 0 0.75rem;
+  color: var(--paper);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: rgba(250, 247, 240, 0.72);
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+.counter {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: rgba(250, 247, 240, 0.5);
+  margin: 0;
+}
+
+/* ============================================================
+   CLOTHESLINE ROWS
+   ============================================================ */
+.wall-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem 8rem;
+}
+
+.line {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 34px;
+  margin-top: 2.75rem;
+}
+
+.line::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='20'%3E%3Cpath d='M0,6 Q55,20 110,6 T220,6' fill='none' stroke='%23b8a074' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 220px 20px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ============================================================
+   POLAROID + CLOTHESPIN
+   ============================================================ */
+.clip {
+  position: relative;
+  margin: 0 0.9rem 2.75rem;
+  transform-origin: top center;
+  animation: sway var(--sway-dur, 6s) ease-in-out var(--sway-delay, 0s) infinite alternate;
+}
+
+@keyframes sway {
+  from { transform: rotate(var(--rot, -3deg)); }
+  to   { transform: rotate(calc(var(--rot, -3deg) * -1 + 1deg)); }
+}
+
+.pin {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 22px;
+  background: linear-gradient(180deg, var(--wood) 0%, var(--wood-dark) 100%);
+  border-radius: 5px;
+  z-index: 3;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.pin::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translateX(-50%);
+  background: #4a3a24;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.polaroid {
+  width: 168px;
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  border-radius: 2px;
+  padding: 10px 10px 14px;
+  box-shadow: 0 10px 18px -6px var(--shadow), 0 2px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.polaroid:hover,
+.polaroid:focus-visible {
+  transform: translateY(-6px) rotate(0deg) scale(1.04);
+  box-shadow: 0 18px 30px -8px var(--shadow), 0 4px 8px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+.clip:has(.polaroid:hover),
+.clip:has(.polaroid:focus-visible) {
+  animation-play-state: paused;
+}
+
+.polaroid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: #ddd;
+}
+
+.polaroid figcaption {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  text-align: center;
+  padding-top: 8px;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   DOWNLOAD ALL BUTTON
+   ============================================================ */
+.download-all {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  background: var(--gold);
+  color: #2b2013;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.55);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.download-all:hover { background: var(--gold-dark); transform: translateY(-2px); }
+.download-all:active { transform: translateY(0); }
+.download-all:disabled { opacity: 0.6; cursor: progress; }
+
+.download-all svg { width: 16px; height: 16px; flex: none; }
+
+/* ============================================================
+   LIGHTBOX
+   ============================================================ */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(10, 10, 8, 0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.lightbox[hidden] { display: none; }
+
+.lb-frame {
+  position: relative;
+  max-width: min(92vw, 720px);
+  width: 100%;
+  background: var(--paper);
+  padding: 14px 14px 22px;
+  border-radius: 3px;
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+}
+
+#lb-img {
+  display: block;
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  background: #111;
+}
+
+#lb-caption {
+  font-family: var(--font-hand);
+  font-size: 1.4rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+.lb-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.lb-download,
+.lb-close {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  padding: 0.65rem 1.2rem;
+}
+
+.lb-download { background: var(--gold); color: #2b2013; }
+.lb-download:hover { background: var(--gold-dark); }
+
+.lb-close { background: transparent; color: var(--paper); border: 1px solid rgba(250, 247, 240, 0.4); }
+.lb-close:hover { border-color: var(--paper); }
+
+.lb-prev,
+.lb-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(250, 247, 240, 0.1);
+  border: 1px solid rgba(250, 247, 240, 0.3);
+  color: var(--paper);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lb-prev { left: 1rem; }
+.lb-next { right: 1rem; }
+.lb-prev:hover, .lb-next:hover { background: rgba(250, 247, 240, 0.22); }
+
+.lb-top-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  color: var(--paper);
+  font-size: 1.8rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  z-index: 70;
+}
+
+.toast[hidden] { display: none; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty {
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: 1.8rem;
+  color: rgba(250, 247, 240, 0.6);
+  padding: 3rem 1.5rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 560px) {
+  .polaroid { width: 128px; padding: 8px 8px 12px; }
+  .polaroid figcaption { font-size: 1rem; }
+  .clip { margin: 0 0.5rem 2rem; }
+  .lb-prev, .lb-next { width: 38px; height: 38px; font-size: 1.2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clip { animation: none !important; }
+  html { scroll-behavior: auto; }
+}

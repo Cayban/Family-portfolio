@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Our Family Wall</title>
+<meta name="description" content="A family photo wall — browse and download the photos." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Work+Sans:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="intro">
+    <p class="eyebrow">A little archive</p>
+    <h1 class="title">Bahala Sisters</h1>
+    <p class="subtitle">Tap any photo to see it bigger. Keep your favorites, or take them all.</p>
+    <p class="counter" id="counter"></p>
+  </header>
+
+  <main class="wall-inner" id="lines"></main>
+
+  <button id="downloadAllBtn" class="download-all">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+    <span id="downloadAllLabel">Download all photos</span>
+  </button>
+
+  <div id="lightbox" class="lightbox" hidden>
+    <button class="lb-top-close" aria-label="Close">×</button>
+    <button class="lb-prev" aria-label="Previous photo">‹</button>
+    <div class="lb-frame">
+      <img id="lb-img" src="" alt="" />
+      <p id="lb-caption"></p>
+      <div class="lb-actions">
+        <button class="lb-download">Download this photo</button>
+        <button class="lb-close">Close</button>
+      </div>
+    </div>
+    <button class="lb-next" aria-label="Next photo">›</button>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="photos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
